@@ -29,6 +29,11 @@ services:
       - "39998:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
+#   jsh-erp-mysql-backup:
+#     image: databack/mysql-backup
+#     restart: unless-stopped
+#     links:
+#       - jsh-erp-mysql
 
 
 

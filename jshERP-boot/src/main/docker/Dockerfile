@@ -4,5 +4,8 @@ ARG artifactId=jsh-erp
 # ENV ARTIFACT_ID=${artifactId}
 ENV SERVICESTARTFILE=/www/jshERP/start.sh
 
-COPY ./dist/jshERP-bin.tar.gz /www/
-CMD $SERVICESTARTFILE
+COPY ./jshERP-bin.tar.gz /www/jshERP.tar.gz
+RUN cd /www \
+    && tar -xvf jshERP.tar.gz \
+    && rm jshERP.tar.gz
+CMD cd /www/jshERP && $SERVICESTARTFILE

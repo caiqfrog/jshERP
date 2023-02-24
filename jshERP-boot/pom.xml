@@ -173,6 +173,41 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>release-docker</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<exec executable="cp">
+									<arg line=" ${project.basedir}/src/main/docker/Dockerfile" />
+									<arg line=" ${project.basedir}/dist/Dockerfile" />
+								</exec>
+								<exec executable="cp">
+									<arg line=" ${project.basedir}/src/main/docker/docker-compose.yml" />
+									<arg line=" ${project.basedir}/dist/docker-compose.yml" />
+								</exec>
+								<exec executable="rm">
+									<arg line=" -rf ${project.basedir}/dist/config/" />
+								</exec>
+								<exec executable="mkdir">
+									<arg line=" -p ${project.basedir}/dist/config/" />
+								</exec>
+								<exec executable="cp">
+									<arg line=" -R ${project.basedir}/src/main/docker/config/" />
+									<arg line=" ${project.basedir}/dist/config/" />
+								</exec>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
