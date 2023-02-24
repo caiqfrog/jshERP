@@ -1,1 +1,1 @@
-./bin/run-manage.sh start
+./bin/run-manage.sh docker_start

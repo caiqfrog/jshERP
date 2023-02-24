@@ -15,7 +15,6 @@ if [ ! -x "$LOGS_HOME" ]
 then
   mkdir $LOGS_HOME
 fi
-chmod +x -R "$JAVA_HOME/bin/"
 functions="/etc/functions.sh"
 if test -f $functions ; then
   . $functions
@@ -61,6 +60,12 @@ function start() {
          failure " "
       fi
    fi
+}
+function docker_start() {
+  echo -n "[$APP_MAIN_CLASS]: Starting ..."
+  JAVA_CMD="nohup $JAVA $JAVA_OPTS -jar $LIB_HOME/$APP_MAIN_CLASS > /dev/null 2>&1"
+  # echo "Exec cmmand : $JAVA_CMD"
+  sh -c "$JAVA_CMD"
 }
 function stop() {
    checkpid
@@ -110,6 +115,9 @@ function info() {
 case "$1" in
    'start')
       start
+      ;;
+   'docker_start')
+      docker_start
       ;;
    'stop')
      stop

@@ -1,0 +1,34 @@
+version: '3'
+services:
+  jsh-erp:
+    image: jsh-erp:v1
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./config/erp:/www/jshERP/config
+    links:
+      - jsh-erp-redis
+      - jsh-erp-mysql
+    restart: unless-stopped
+  jsh-erp-redis:
+    image: redis:4.0.14-alpine
+    expose:
+      - 6379
+  jsh-erp-mysql:
+    image: mysql:5.7.41-debian
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: jsh-erp
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: example
+    expose:
+      - 3306
+    ports:
+      - "39998:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+
+

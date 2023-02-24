@@ -9,7 +9,7 @@ http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 ">
     <id>bin</id>
 
     <formats>
-        <format>zip</format>
+        <format>tar.gz</format>
     </formats>
 
     <includeBaseDirectory>true</includeBaseDirectory>
@@ -39,6 +39,7 @@ http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 ">
                 <include>run-manage.sh</include>
             </includes>
             <lineEnding>unix</lineEnding>
+            <fileMode>744</fileMode>
         </fileSet>
         <fileSet>
             <directory>${project.basedir}/src/main/bin/</directory>
@@ -50,6 +51,7 @@ http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 ">
                 <include>stop.sh</include>
                 <include>status.sh</include>
             </includes>
+            <fileMode>744</fileMode>
         </fileSet>
         <fileSet>
             <directory>docs</directory>
