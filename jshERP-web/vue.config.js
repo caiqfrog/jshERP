@@ -1,7 +1,7 @@
 const path = require('path')
 const CompressionPlugin = require('compression-webpack-plugin')
 
-function resolve (dir) {
+function resolve(dir) {
     return path.join(__dirname, dir)
 }
 
@@ -9,8 +9,9 @@ function resolve (dir) {
 module.exports = {
     // 如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
     productionSourceMap: false,
+    outputDir: process.env.NODE_ENV === 'production' ? '../jshERP-boot/src/main/resources/static/' : './dist/',
     configureWebpack: config => {
-    // 生产环境取消 console.log
+        // 生产环境取消 console.log
         if (process.env.NODE_ENV === 'production') {
             config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
         }
@@ -22,7 +23,7 @@ module.exports = {
             .set('@assets', resolve('src/assets'))
             .set('@comp', resolve('src/components'))
             .set('@views', resolve('src/views'))
-        // 生产环境，开启js\css压缩
+            // 生产环境，开启js\css压缩
         if (process.env.NODE_ENV === 'production') {
             config.plugin('compressionPlugin').use(new CompressionPlugin({
                 test: /\.(js|css|less)$/, // 匹配文件名
@@ -47,7 +48,7 @@ module.exports = {
     devServer: {
         port: 3000,
         proxy: {
-            '/jshERP-boot': {
+            '/v1': {
                 target: 'http://localhost:9999', // 请求本地 需要jshERP-boot后台项目
                 ws: false,
                 changeOrigin: true

@@ -13,10 +13,12 @@
 hs_err_pid*
 
 .idea
-/target
-/dist
+**/target/
+**/static/
+**/dist/
 **/docker/data
 /logs.*
+*.log
 
 **/*.iml
 
