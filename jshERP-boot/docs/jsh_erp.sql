@@ -12,6 +12,8 @@ File Encoding         : 65001
 
 Date: 2023-02-20 00:10:15
 */
+CREATE SCHEMA IF NOT EXISTS `jsh_erp` DEFAULT CHARACTER SET utf8mb4 ;
+use `jsh_erp`;
 
 SET FOREIGN_KEY_CHECKS=0;
 

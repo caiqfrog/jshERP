@@ -63,7 +63,7 @@ function start() {
 }
 function docker_start() {
   echo -n "[$APP_MAIN_CLASS]: Starting ..."
-  JAVA_CMD="nohup $JAVA $JAVA_OPTS -jar $LIB_HOME/$APP_MAIN_CLASS > /dev/null 2>&1"
+  JAVA_CMD="nohup $JAVA $JAVA_OPTS -jar $LIB_HOME/$APP_MAIN_CLASS 2>&1"
   # echo "Exec cmmand : $JAVA_CMD"
   sh -c "$JAVA_CMD"
 }

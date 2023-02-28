@@ -1,11 +1,8 @@
-FROM openjdk:8u322-oraclelinux8
+FROM nginx:stable-alpine
 
-ARG artifactId=jsh-erp
-# ENV ARTIFACT_ID=${artifactId}
-ENV SERVICESTARTFILE=/www/jshERP/start.sh
-
+ENV TZ=Asia/Singapore
 COPY ./jshERP-bin.tar.gz /www/jshERP.tar.gz
 RUN cd /www \
-    && tar -xvf jshERP.tar.gz \
-    && rm jshERP.tar.gz
-CMD cd /www/jshERP && $SERVICESTARTFILE
+    && tar -xf jshERP.tar.gz \
+    && rm jshERP.tar.gz \
+    && ls -alh /www && ls -alh /www/dist/

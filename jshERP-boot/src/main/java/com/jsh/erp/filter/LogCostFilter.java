@@ -1,6 +1,7 @@
 package com.jsh.erp.filter;
 
 import com.jsh.erp.service.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @WebFilter(
         filterName = "LogCostFilter", urlPatterns = {"/*"},
         initParams = {
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
                 @WebInitParam(name = "filterPath",
                         value = "/user/login#/user/registerUser#/user/randomImage#" +
                                 "/platformConfig/getPlatform#/v2/api-docs#/webjars#" +
-                                "/systemConfig/static"),
+                                "/systemConfig/static#/ping"),
                 @WebInitParam(name = "logoutUrl", value = "/user/logout#/function/findMenuByPNumber")
 })
 public class LogCostFilter implements Filter {
@@ -39,7 +41,7 @@ public class LogCostFilter implements Filter {
     private List<String> logoutUrls;
     @Resource
     private RedisService redisService;
-    @Value("${server.servlet.context-path}:/")
+    @Value("${server.servlet.context-path:/}")
     private String contextPath;
 
     @Override
@@ -73,6 +75,7 @@ public class LogCostFilter implements Filter {
         String requestUrl = servletRequest.getRequestURI();
         // 具体，比如：处理若用户未登录，则跳转到登录页
         Object userId = redisService.getObjectFromSessionByKey(servletRequest,"userId");
+        log.info("user {} request {}.", userId, requestUrl);
         if(Objects.isNull(requestUrl) || Objects.nonNull(userId)) {
             // 如果已登录，不阻止
             chain.doFilter(request, response);

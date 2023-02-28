@@ -4,12 +4,23 @@ services:
     image: jsh-erp:v1
     ports:
       - "9999:9999"
+    expose:
+      - 9999
     volumes:
       - ./config/erp:/www/jshERP/config
     links:
       - jsh-erp-redis
       - jsh-erp-mysql
+    depends_on:
+      - jsh-erp-redis
+      - jsh-erp-mysql
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9999/v1/ping"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 40s
   jsh-erp-redis:
     image: redis:4.0.14-alpine
     expose:
@@ -19,7 +30,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: jsh-erp
+      MYSQL_DATABASE: jsh_erp
       MYSQL_USER: test
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: example
@@ -29,7 +40,18 @@ services:
       - "39998:3306"
     volumes:
       - ./data/mysql:/var/lib/mysql
-
+  jsh-erp-web:
+    image: jsh-erp-web:v1
+    restart: unless-stopped
+    ports:
+      - "9998:80"
+    links:
+      - jsh-erp
+    depends_on:
+      - jsh-erp
+    volumes:
+      - ./data/nginx/log:/var/log/nginx
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
 
 

@@ -18,7 +18,10 @@ cp -R ${SERVER_HOME}/src/main/docker/config/ ${HOME}/config/erp/
 
 cd ${WEB_HOME}
 npm run build
-mkdir -p ${HOME}/web/dist
-cp ${WEB_HOME}/dist/ ${HOME}/web/dist/
+cd ${HOME}/web
+rm -rf ${HOME}/web/dist/
+cp -R ${WEB_HOME}/dist/ ${HOME}/web/dist/
+tar cvf jshERP-bin.tar.gz ./dist/
+rm -rf ${HOME}/web/dist/
 
 

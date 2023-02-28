@@ -1,3 +1,6 @@
 /data/
 *.tar.gz
 
+.idea/
+.config/
+.docker/
