@@ -36,7 +36,7 @@
     </resultMap>
 
     <select id="selectByConditionMaterial" parameterType="com.jsh.erp.datasource.entities.MaterialExample" resultMap="ResultMapList">
-        select m.*,u.name unitName, mc.name categoryName, me.bar_code,
+        select m.*,u.name unitName, mc.name categoryName, group_concat(me.bar_code) bar_code,
         me.purchase_decimal, me.commodity_decimal, me.wholesale_decimal,me.low_decimal,me.sku
         FROM jsh_material m
         left JOIN jsh_material_extend me on m.id = me.material_id and ifnull(me.delete_Flag,'0') !='1'
